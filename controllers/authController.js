@@ -4,7 +4,6 @@ import {BadRequestError } from "../errors/index.js"
 
 const register = async (req, res, next) => {
     const {name, email, password} = req.body
-
     if(!name || !email || !password){
       throw new BadRequestError("Vui lòng nhập đủ thông tin!")
     }
@@ -23,4 +22,5 @@ const updatedUser = async (req, res) => {
   res.send("updated user");
   User.findOneAndUpdate
 };
+
 export { register, login, updatedUser };
