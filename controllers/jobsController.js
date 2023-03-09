@@ -1,6 +1,11 @@
 import Job from '../models/Job.js'
 import { StatusCodes } from 'http-status-codes'
-import { BadRequestError, UnAuthenticatedError } from '../errors/index.js'
+import {
+  BadRequestError,
+  NotFoundError,
+  UnAuthenticatedError,
+} from '../errors/index.js'
+import checkPermissions from '../utils/checkPermissions.js'
 
 const createJob = async (req, res) => {
   const { position, company } = req.body
@@ -12,13 +17,47 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job })
 }
 const getAllJobs = async (req, res) => {
-  res.send('get All job ')
+  const jobs = await Job.find({ createdBy: req.user.userID })
+  res
+    .status(StatusCodes.OK)
+    .json({ jobs, totalJobs: jobs.length, numOfPages: 1 })
 }
 const updateJob = async (req, res) => {
-  res.send('update job ')
+  const { id: jobId } = req.params
+  const { company, position } = req.body
+  if (!position || !company) {
+    throw new BadRequestError('Vui lòng nhập đầy đủ thông tin!')
+  }
+  const job = await Job.findOne({ _id: jobId })
+  if (!job) {
+    throw new NotFoundError(`Không tìm thấy công việc với id: ${jobId} `)
+  }
+
+  console.log(typeof req.user.userID)
+  console.log(typeof job.createdBy)
+
+  checkPermissions(req.user, job.createdBy)
+
+  const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
+    new: true,
+    runValidators: true,
+  })
+
+  await job.save()
+
+  res.status(StatusCodes.OK).json({ updatedJob })
 }
 const deleteJob = async (req, res) => {
-  res.send('delete job ')
+  const { id: jobId } = req.params
+  const job = await Job.findOne({ _id: jobId })
+  if (!job) {
+    throw new NotFoundError(`Không tìm thấy công việc với id: ${jobId} `)
+  }
+
+  checkPermissions(req.user, job.createdBy)
+
+  await job.remove()
+  res.status(StatusCodes.OK).json({ msg: 'Job removed successfully' })
 }
 const showStats = async (req, res) => {
   res.send('show stats')
