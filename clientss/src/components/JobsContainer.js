@@ -2,11 +2,11 @@ import { useAppContext } from '../context/appContext'
 import { useEffect } from 'react'
 import Loading from './Loading'
 import Job from './Job'
-import Alert from './Alert'
+// import Alert from './Alert'
 import Wrapper from '../assets/wrappers/JobsContainer'
 
 const JobsContainer = () => {
-  const { getJobs, jobs, isLoading, page, totalJobs } = useAppContext()
+  const { getJobs, jobs, isLoading, totalJobs } = useAppContext()
 
   useEffect(() => {
     getJobs()
