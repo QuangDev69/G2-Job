@@ -19,7 +19,42 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job })
 }
 const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user.userID })
+  const { status, jobType, sort, search } = req.query
+
+  const queryObject = {
+    createdBy: req.user.userID,
+  }
+  //adds stuff based
+  if (status && status !== 'all') {
+    queryObject.status = status
+  }
+  if (jobType && jobType !== 'all') {
+    queryObject.jobType = jobType
+  }
+  if (search) {
+    queryObject.position = { $regex: search, $options: 'i' }
+  }
+
+  //no await
+  console.log(queryObject)
+  let result = Job.find(queryObject)
+
+  //chain sort conditions
+  if (sort === 'Mới nhất') {
+    result = result.sort('-createdAt')
+  }
+  if (sort === 'Cũ nhất') {
+    result = result.sort('createdAt')
+  }
+  if (sort === 'A-Z') {
+    result = result.sort('position')
+  }
+  if (sort === 'Z-A') {
+    result = result.sort('-position')
+  }
+
+  const jobs = await result
+
   res
     .status(StatusCodes.OK)
     .json({ jobs, totalJobs: jobs.length, numOfPages: 1 })
