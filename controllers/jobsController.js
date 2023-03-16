@@ -19,6 +19,7 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job })
 }
 const getAllJobs = async (req, res) => {
+  console.log(req.user)
   const { status, jobType, sort, search } = req.query
 
   const queryObject = {
