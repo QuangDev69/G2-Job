@@ -44,6 +44,7 @@ const Wrapper = styled.article`
   .pending {
     background: #fcefc7;
     color: #e9b949;
+    content: 'Đang chờ';
   }
   .interview {
     background: #e0e8f9;

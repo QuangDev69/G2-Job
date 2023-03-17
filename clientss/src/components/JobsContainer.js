@@ -31,14 +31,14 @@ const JobsContainer = () => {
   if (jobs.length === 0) {
     return (
       <Wrapper>
-        <h2>Không có công việc nào!</h2>
+        <h2>No jobs to display...s!</h2>
       </Wrapper>
     )
   }
   return (
     <Wrapper>
       {showAlert && <Alert />}
-      <h5>{totalJobs} Công việc tìm được</h5>
+      <h5>{totalJobs} Job </h5>
       <div className="jobs">
         {jobs.map((job) => {
           return <Job key={job._id} {...job} />

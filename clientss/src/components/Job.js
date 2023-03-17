@@ -32,7 +32,10 @@ const Job = ({
           <JobInfo icon={<FaLocationArrow />} text={jobLocation} />
           <JobInfo icon={<FaCalendarAlt />} text={date} />
           <JobInfo icon={<FaBriefcase />} text={jobType} />
-          <div className={`status ${status}`}>{status}</div>
+          {status === 'pending' && (
+            <div className={`status ${status}`}>{status}</div>
+          )}
+          {/* <div className={`status ${status}`}>{status}</div> */}
         </div>
         <footer>
           <div className="actions">
@@ -48,7 +51,7 @@ const Job = ({
               className="btn delete-btn"
               onClick={() => deleteJob(_id)}
             >
-              Delete
+              Detele
             </button>
           </div>
         </footer>

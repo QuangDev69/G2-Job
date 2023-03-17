@@ -26,7 +26,7 @@ const PageBtnContainer = () => {
     <Wrapper>
       <button className="prev-btn" onClick={prevPage}>
         <HiChevronDoubleLeft />
-        Trước
+        Prev
       </button>
       <div className="btn-container">
         {pages.map((pageNumber) => {
@@ -43,7 +43,7 @@ const PageBtnContainer = () => {
         })}
       </div>
       <button className="next-btn" onClick={nextPage}>
-        Tiếp
+        Next
         <HiChevronDoubleRight />
       </button>
     </Wrapper>

@@ -11,7 +11,7 @@ const ChartsContainer = () => {
     <Wrapper>
       <h4>Monthly Applications</h4>
       <button type="button" onClick={() => setBarChart(!barChart)}>
-        {barChart ? 'Biểu đồ vùng' : 'Biểu đồ cột'}
+        {barChart ? 'Area Chart' : 'Bar Chart'}
       </button>
       {barChart ? (
         <BarChartComponent data={data} />
