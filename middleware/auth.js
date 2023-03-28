@@ -4,17 +4,17 @@ UnAuthenticatedError
 const auth = async (req, res, next) => {
   const token = req.cookies.token
   if (!token) {
-    throw new UnAuthenticatedError('Xác thực không hợp lệ!')
+    throw new UnAuthenticatedError('Authentication Invalid!')
   }
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)
-    const testUser = payload.userID === '64131b5d8112fc3f359083ff'
-    req.user = { userID: payload.userID, testUser }
+    const testUser = payload.userID === '642311e1b2125db5b3487813'
+    req.user = { userID: payload.userID }
 
     next()
   } catch (error) {
-    throw new UnAuthenticatedError('Auth Invalid')
+    throw new UnAuthenticatedError('Authentication Invalid')
   }
 }
 export default auth

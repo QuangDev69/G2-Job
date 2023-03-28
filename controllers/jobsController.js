@@ -12,7 +12,7 @@ import moment from 'moment'
 const createJob = async (req, res) => {
   const { position, company } = req.body
   if (!position || !company) {
-    throw new BadRequestError('Vui lòng nhập đầy đủ thông tin!')
+    throw new BadRequestError('Please fill all the information. ')
   }
   req.body.createdBy = req.user.userID
   const job = await Job.create(req.body)
@@ -26,10 +26,10 @@ const getAllJobs = async (req, res) => {
     createdBy: req.user.userID,
   }
   //adds stuff based
-  if (status && status !== 'all') {
+  if (status && status !== 'All') {
     queryObject.status = status
   }
-  if (jobType && jobType !== 'all') {
+  if (jobType && jobType !== 'All') {
     queryObject.jobType = jobType
   }
   if (search) {
@@ -41,16 +41,16 @@ const getAllJobs = async (req, res) => {
   let result = Job.find(queryObject)
 
   //chain sort conditions
-  if (sort === 'Latest') {
+  if (sort === 'latest') {
     result = result.sort('-createdAt')
   }
-  if (sort === 'Oldest') {
+  if (sort === 'oldest') {
     result = result.sort('createdAt')
   }
-  if (sort === 'A-Z') {
+  if (sort === 'a-z') {
     result = result.sort('position')
   }
-  if (sort === 'Z-A') {
+  if (sort === 'z-a') {
     result = result.sort('-position')
   }
   const page = Number(req.query.page) || 1
